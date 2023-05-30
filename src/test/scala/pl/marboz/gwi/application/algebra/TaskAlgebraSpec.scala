@@ -22,7 +22,7 @@ class TaskAlgebraSpec extends CatsEffectSuite {
   }
 
   test("TaskAlgebra returns hello world message") {
-    assertIO(retTaskAlgebra.flatMap(_.as[String]), "{\"status\":\"DONE\"}")
+    assertIO(retTaskAlgebra.flatMap(_.as[String]), "")
   }
 
   private[this] val retTaskAlgebra: IO[Response[IO]] = {

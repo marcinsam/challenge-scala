@@ -60,7 +60,9 @@ object TaskAlgebra {
       override def deleteTask(uuid: String): F[DeleteTaskResult] = {
         for {
           map <- taskState.get
-          _   <- taskState.update(_ => map.removed(UUID.fromString(uuid)))
+          maybeTask = map.get(UUID.fromString(uuid)).filter(t => t.status == SCHEDULED || t.status == RUNNING)
+          newMap = if (maybeTask.isDefined) map.removed(UUID.fromString(uuid)) else map
+          _ <- taskState.update(_ => newMap)
         } yield DeleteTaskResult("DONE")
       }
 
